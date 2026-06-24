@@ -1,24 +1,27 @@
-# Hacker News Clone
+# Project Overview
 
-## Project Description
+## Hacker News Clone
 
-Hacker News Clone is a web-based discussion platform where users can share technology news, create Ask posts, upvote content, and participate in discussions through comments and replies.
+Hacker News Clone is a community-driven platform where users can share technology news, startup projects, and open-source tools. Users can create posts, comment on discussions, and upvote valuable content.
 
-## Features
+The platform is designed for startup founders, software engineers, and library/framework creators who want to share ideas, receive feedback, and stay updated with the latest technology trends.
 
-- User Registration and Login
-- News Posts
-- Ask Posts
-- Comments and Replies
-- Upvotes
-- User Profiles
-- Search Posts
-- Trending Posts
+### Key Features
 
-## Tech Stack
+* User Registration and Login
+* Create News, Ask HN, and Show HN Posts
+* Comment on Posts
+* Upvote Posts and Comments
+* View Trending Content
+* User Profiles
 
-- Django
-- PostgreSQL
-- HTML
-- CSS
-- javascript
+### Technology Stack
+
+* Backend: Django
+* Database: PostgreSQL
+* Frontend: HTML, CSS, Django Templates
+* Deployment: Render
+
+### MVP Goal
+
+To build a simple social news platform where users can share content, participate in discussions, and discover trending posts through community voting.

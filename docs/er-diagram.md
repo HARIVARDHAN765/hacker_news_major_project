@@ -1,8 +1,6 @@
 # Entity Relationship Diagram (ERD)
 
-## Overview
-
-This ER Diagram represents the database design for the Hacker News Clone project. It models users, posts, comments, and votes. Users can create news posts, Ask posts, comment on discussions, and upvote content.
+## Mermaid ER Diagram
 
 ```mermaid
 erDiagram
@@ -19,47 +17,115 @@ erDiagram
         int id PK
         string title
         string url
+        text content
         string post_type
         datetime created_at
-        int user_id FK
+        int author_id FK
     }
 
     COMMENT {
         int id PK
-        string content
+        text content
         datetime created_at
-        int user_id FK
+        int author_id FK
         int post_id FK
     }
 
-    VOTE {
+    POST_VOTE {
         int id PK
-        datetime created_at
         int user_id FK
         int post_id FK
+        datetime created_at
+    }
+
+    COMMENT_VOTE {
+        int id PK
+        int user_id FK
+        int comment_id FK
+        datetime created_at
     }
 
     USER ||--o{ POST : creates
     USER ||--o{ COMMENT : writes
-    USER ||--o{ VOTE : casts
+
+    USER ||--o{ POST_VOTE : casts
+    USER ||--o{ COMMENT_VOTE : casts
 
     POST ||--o{ COMMENT : has
-    POST ||--o{ VOTE : receives
+    POST ||--o{ POST_VOTE : receives
+
+    COMMENT ||--o{ COMMENT_VOTE : receives
 ```
 
-## Relationship Summary
+## Relationships
 
-* One User can create many Posts.
-* One User can write many Comments.
-* One User can cast many Votes.
-* One Post can have many Comments.
-* One Post can receive many Votes.
+### User → Post
 
-## Notes
+One user can create many posts.
 
-* NEWS posts contain a title and URL.
-* ASK posts contain a title and discussion question.
-* Users can upvote posts.
-* Users can comment on posts.
-* Each vote belongs to one user and one post.
-* Each comment belongs to one user and one post.
+### User → Comment
+
+One user can write many comments.
+
+### User → Post Vote
+
+One user can vote on many posts.
+
+### User → Comment Vote
+
+One user can vote on many comments.
+
+### Post → Comment
+
+One post can have many comments.
+
+### Post → Post Vote
+
+One post can receive many upvotes.
+
+### Comment → Comment Vote
+
+One comment can receive many upvotes.
+
+---
+
+## Example
+
+### Pieter Levels
+
+Creates:
+
+```text
+Show HN: Nomad List
+```
+
+### Santu
+
+* Upvotes the post
+* Comments on the post
+
+### Dan Abramov
+
+* Upvotes Santu's comment
+
+```text
+Pieter ----creates----> Post
+
+Santu ----upvotes----> Post
+Santu ----writes-----> Comment
+
+Dan ------upvotes----> Comment
+```
+
+---
+
+## Why Comment Votes?
+
+Comment votes help:
+
+* Surface useful discussions
+* Highlight high-quality answers
+* Reduce visibility of low-quality comments
+* Improve community engagement
+
+This matches the behavior of the real Hacker News platform where both posts and comments can receive points.
