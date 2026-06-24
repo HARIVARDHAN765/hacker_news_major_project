@@ -26,7 +26,7 @@ erDiagram
 
     COMMENT {
         int id PK
-        text content
+        string content
         datetime created_at
         int user_id FK
         int post_id FK
@@ -45,7 +45,6 @@ erDiagram
 
     POST ||--o{ COMMENT : has
     POST ||--o{ VOTE : receives
-}
 ```
 
 ## Relationship Summary
