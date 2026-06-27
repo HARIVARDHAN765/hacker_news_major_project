@@ -45,10 +45,16 @@
 
     <h3>Create Account</h3>
 
+    {{ register_form.errors }}
+
     <form method="POST" action="{% url 'register' %}">
         {% csrf_token %}
 
         <table>
+            <tr>
+                <td>Email:</td>
+                <td>{{ register_form.email }}</td>
+            </tr>
 
             <tr>
                 <td>Username:</td>
