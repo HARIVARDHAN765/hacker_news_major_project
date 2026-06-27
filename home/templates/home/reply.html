@@ -1,0 +1,33 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Reply
+{% endblock %}
+
+{% block content %}
+
+<h2>Reply</h2>
+
+<p>
+    <strong>{{ comment.user.username }}</strong>
+</p>
+
+<p>
+    {{ comment.content }}
+</p>
+
+<hr>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Add Reply
+    </button>
+
+</form>
+
+{% endblock %}

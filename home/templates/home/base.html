@@ -1,0 +1,130 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        Hacker News
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="{% static 'home/css/base.css' %}">
+</head>
+
+<body>
+
+<div class="page">
+
+    <header class="header">
+
+        <div class="logo">
+            Y
+        </div>
+
+        <div class="nav">
+
+            <a href="{% url 'home' %}"><strong>Hacker News</strong></a>
+
+            |
+
+            <a href="{% url 'home' %}">new</a>
+
+            |
+
+            <a href="#">threads</a>
+
+            |
+
+            <a href="#">past</a>
+
+            |
+
+            <a href="#">comments</a>
+
+            |
+
+            <a href="#">ask</a>
+
+            |
+
+            <a href="#">show</a>
+
+            |
+
+            <a href="{% url 'submit' %}">submit</a>
+
+        </div>
+
+        <div class="auth">
+
+            {% if user.is_authenticated %}
+
+                {{ user.username }}
+
+                |
+
+                <a href="{% url 'logout' %}">logout</a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}">
+                    login
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </header>
+
+    <main class="content">
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+    <footer class="footer">
+
+    <div class="footer-links">
+
+        <a href="#">Guidelines</a> |
+
+        <a href="#">FAQ</a> |
+
+        <a href="#">Lists</a> |
+
+        <a href="#">API</a> |
+
+        <a href="#">Security</a> |
+
+        <a href="#">Legal</a> |
+
+        <a href="#">Apply to YC</a> |
+
+        <a href="#">Contact</a>
+
+    </div>
+
+    <div class="footer-search">
+
+        <label for="search">Search:</label>
+
+        <input
+            type="text"
+            id="search"
+            name="search"
+        >
+
+    </div>
+
+</footer>
+
+</div>
+
+</body>
+</html>

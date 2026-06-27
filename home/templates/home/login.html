@@ -1,0 +1,77 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Hacker News</title>
+
+    <link rel="stylesheet" href="{% static 'home/css/login.css' %}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3>Login</h3>
+
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        <table>
+
+            <tr>
+                <td>Username:</td>
+                <td>{{ login_form.username }}</td>
+            </tr>
+
+            <tr>
+                <td>Password:</td>
+                <td>{{ login_form.password }}</td>
+            </tr>
+
+        </table>
+
+        <input type="submit" value="Login">
+
+    </form>
+
+    <p>
+        <a href="#">Forgot your password?</a>
+    </p>
+
+    <hr>
+
+    <h3>Create Account</h3>
+
+    <form method="POST" action="{% url 'register' %}">
+        {% csrf_token %}
+
+        <table>
+
+            <tr>
+                <td>Username:</td>
+                <td>{{ register_form.username }}</td>
+            </tr>
+
+            <tr>
+                <td>Password:</td>
+                <td>{{ register_form.password1 }}</td>
+            </tr>
+
+            <tr>
+                <td>Repeat Password:</td>
+                <td>{{ register_form.password2 }}</td>
+            </tr>
+
+        </table>
+
+        <input type="submit" value="Create Account">
+
+    </form>
+
+</div>
+
+</body>
+</html>

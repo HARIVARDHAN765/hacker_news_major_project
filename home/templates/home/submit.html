@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit | Hacker News Clone</title>
+</head>
+<body>
+
+    <header>
+        <strong>Y</strong>
+        <span> Submit</span>
+    </header>
+
+    <hr>
+
+    <main>
+
+        <h2>Submit</h2>
+
+        <p>
+            Leave the URL blank to submit a question for discussion.
+            If there is no URL, the text (if any) will appear at the top
+            of the thread.
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                Submit
+            </button>
+
+        </form>
+
+    </main>
+
+</body>
+</html>

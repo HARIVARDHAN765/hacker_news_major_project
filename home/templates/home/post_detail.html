@@ -1,0 +1,123 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+{{ post.title }}
+{% endblock %}
+
+{% block content %}
+
+<h2 class="post-title">{{ post.title }}</h2>
+
+{% if post.url %}
+<p>
+    <a href="{{ post.url }}" target="_blank" class="link-style1">
+        {{ post.url }}
+    </a>
+</p>
+{% endif %}
+
+{% if post.text %}
+<p>
+    {{ post.text }}
+</p>
+{% endif %}
+
+<p class="post-meta">
+    Posted by <strong>{{ post.user.username }}</strong>
+    |
+    {{ post.created_at }}
+</p>
+
+<h3></h3>
+
+{% if user.is_authenticated %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        add comment
+    </button>
+</form>
+
+{% else %}
+
+<p>
+    <a href="{% url 'login' %}">Login</a> to add a comment.
+</p>
+
+{% endif %}
+
+
+
+<h3></h3>
+
+{% for comment in post.comments.all %}
+
+    {% if not comment.parent %}
+
+        <div>
+
+            <a href="{% url 'vote_comment' comment.id %}" class="vote-arrow">
+                ▲
+            </a>
+
+            <light class="user-style">{{ comment.user.username }}</light>
+
+            <small class="comment-style2">
+                {{ comment.vote_count }} point{{ comment.vote_count|pluralize }}
+                |
+                {{ comment.created_at }}
+            </small>
+
+            <p>
+                {{ comment.content }}
+            </p>
+
+            <!-- Reply link (we'll implement next) -->
+
+            <a href="{% url 'reply_comment' comment.id %}" class="reply_style">Reply</a>
+
+            <!-- Replies -->
+
+            {% for reply in comment.replies.all %}
+
+                <div style="margin-left:40px; border-left:2px solid #ddd; padding-left:15px; margin-top:10px;">
+
+                    <a href="{% url 'vote_comment' reply.id %}" class="vote-arrow">
+                        ▲
+                    </a>
+
+                    <light class="user-style">{{ reply.user.username }}</light>
+
+                    <small class="comment-style2">
+                        {{ reply.vote_count }} point{{ reply.vote_count|pluralize }}
+                        |
+                        {{ reply.created_at }}
+                    </small>
+
+                    <p>
+                        {{ reply.content }}
+                    </p>
+
+                </div>
+
+            {% empty %}
+
+            {% endfor %}
+
+        
+
+        </div>
+
+    {% endif %}
+
+{% empty %}
+
+<p>No comments yet.</p>
+
+{% endfor %}
+
+{% endblock %}

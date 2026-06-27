@@ -1,0 +1,53 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1rem;
+    background-color: white;
+    color: black;
+    margin: 0;
+}
+
+.container {
+    margin: 1.5rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+}
+
+table {
+    border-collapse: collapse;
+    margin-bottom: 0.8rem;
+}
+
+td {
+    padding: 0.3rem 0.5rem 0.3rem 0;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 14rem;
+    padding: 0.25rem;
+    font-size: 1rem;
+}
+
+input[type="submit"] {
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+a {
+    color: blue;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+hr {
+    margin: 1.5rem 0;
+}
