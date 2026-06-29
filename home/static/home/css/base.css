@@ -63,6 +63,12 @@ body {
     font-size: 0.58rem;
     color: #828282;
 }
+.post-meta a{
+    font-size: 0.58rem;
+    color: #828282;
+    text-decoration: none;
+
+}
 .vote-arrow {
     font-size: 0.625rem;
     text-decoration: none;
@@ -119,6 +125,7 @@ ol {
 }
 .comment-style2 {
     color: #828282;
+    font-size: 0.625rem; 
 }
 .user-style {
     color: #828282;
@@ -128,3 +135,17 @@ ol {
     font-size: 0.625rem;
 
 }
+.strong {
+    color: #000000;
+    font-size: 0.9rem;
+
+}
+.user-style,
+.user-style a {
+    font-size: 0.625rem;
+    text-decoration: none;
+}
+.post-text {
+    color: #828282;
+}
+

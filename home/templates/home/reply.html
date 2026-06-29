@@ -1,4 +1,10 @@
 {% extends "home/base.html" %}
+{% load static %}
+{% load timeago %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'home/css/reply.css' %}">
+{% endblock %}
 
 {% block title %}
 Reply
@@ -6,15 +12,39 @@ Reply
 
 {% block content %}
 
-<h2>Reply</h2>
+<div class="comment">
 
-<p>
-    <strong>{{ comment.user.username }}</strong>
-</p>
+    <p>
 
-<p>
-    {{ comment.content }}
-</p>
+        <a href="{% url 'vote_comment' comment.id %}" class="vote-arrow">
+            ▲
+        </a>
+
+        <span class="user-style">
+
+            <a href="{% url 'profile' comment.user.username %}" class="user-style">
+                {{ comment.user.username }}
+            </a>
+
+        </span>
+
+        <span class="comment-style2">
+
+            {{ comment.vote_count }} point{{ comment.vote_count|pluralize }}
+
+            |
+
+            {{ comment.created_at|timeago }}
+
+        </span>
+
+    </p>
+
+    <p class="comment-content">
+        {{ comment.content }}
+    </p>
+
+</div>
 
 <hr>
 
@@ -22,10 +52,12 @@ Reply
 
     {% csrf_token %}
 
-    {{ form.as_p }}
+    {{ form.content }}
+
+    <br><br>
 
     <button type="submit">
-        Add Reply
+        Reply
     </button>
 
 </form>

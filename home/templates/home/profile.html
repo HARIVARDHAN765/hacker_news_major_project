@@ -1,0 +1,77 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+{{ profile_user.username }}
+{% endblock %}
+
+{% block content %}
+
+<table>
+
+    <tr>
+        <td>user:</td>
+        <td>{{ profile_user.username }}</td>
+    </tr>
+
+    <tr>
+        <td>created:</td>
+        <td>{{ profile_user.date_joined }}</td>
+    </tr>
+
+    <tr>
+        <td>karma:</td>
+        <td>{{ karma }}</td>
+    </tr>
+
+    <tr>
+        <td>about:</td>
+
+        <td>
+
+            {% if form %}
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    {{ form.about }}
+
+                    <br><br>
+
+                    <button type="submit">
+                        Save
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                {{ profile.about|default:"-" }}
+
+            {% endif %}
+
+        </td>
+
+    </tr>
+
+    <tr>
+        <td>submissions:</td>
+        <td>
+            <a href="{% url 'user_submissions' profile_user.username %}">
+                {{ submissions.count }}
+            </a>
+        </td>
+    </tr>
+
+    <tr>
+        <td>comments:</td>
+        <td>
+            <a href="{% url 'user_comments' profile_user.username %}">
+                {{ comments.count }}
+            </a>
+        </td>
+    </tr>
+
+</table>
+
+{% endblock %}

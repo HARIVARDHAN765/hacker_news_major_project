@@ -1,0 +1,96 @@
+{% load timeago %}
+{% if posts %}
+
+<ol>
+
+    {% for post in posts %}
+
+    <li>
+
+        <a href="{% url 'vote_post' post.id %}" class="vote-arrow">
+            ▲
+        </a>
+
+        {% if post.url %}
+
+            <a href="{{ post.url }}" target="_blank" class="post-title">
+
+                <strong>
+
+                    {% if post.post_type == "ASK" %}
+                        Ask HN: {{ post.title }}
+
+                    {% elif post.post_type == "SHOW" %}
+                        Show HN: {{ post.title }}
+
+                    {% else %}
+                        {{ post.title }}
+                    {% endif %}
+
+                </strong>
+
+            </a>
+
+        {% else %}
+
+            <a href="{% url 'post_detail' post.id %}" class="post-title">
+
+                <strong>
+
+                    {% if post.post_type == "ASK" %}
+                        Ask HN: {{ post.title }}
+
+                    {% elif post.post_type == "SHOW" %}
+                        Show HN: {{ post.title }}
+
+                    {% else %}
+                        {{ post.title }}
+                    {% endif %}
+
+                </strong>
+
+            </a>
+
+        {% endif %}
+
+        <br>
+
+        <p class="post-meta">
+
+            {{ post.vote_count }} point{{ post.vote_count|pluralize }}
+
+            |
+
+            <a href="{% url 'profile' post.user.username %}">
+                {{ post.user.username }}
+            </a>
+
+            |
+
+            {{ post.created_at|timeago }}
+
+            |
+
+            {{ post.post_type }}
+
+            |
+
+            <a href="{% url 'post_detail' post.id %}" class="comment-style">
+                {{ post.comments.count }} comment{{ post.comments.count|pluralize }}
+            </a>
+
+        </p>
+
+    </li>
+
+    <br>
+
+    {% endfor %}
+
+</ol>
+
+{% else %}
+
+<p>No posts have been submitted yet.</p>
+
+{% endif %}

@@ -1,0 +1,79 @@
+{% extends "home/base.html" %}
+{% load timeago %}
+
+{% block title %}
+{{ profile_user.username }}'s Submissions
+{% endblock %}
+
+{% block nav_extra %}
+| <span style="color: white;">
+    {{ profile_user.username }}'s submissions
+</span>
+{% endblock %}
+
+{% block content %}
+
+{% if posts %}
+
+<ol>
+
+    {% for post in posts %}
+
+    <li>
+
+        <a href="{% url 'vote_post' post.id %}" class="vote-arrow">
+            ▲
+        </a>
+
+        {% if post.url %}
+
+            <a href="{{ post.url }}" target="_blank" class="post-title">
+                <strong>{{ post.title }}</strong>
+            </a>
+
+        {% else %}
+
+            <a href="{% url 'post_detail' post.id %}" class="post-title">
+                <strong>{{ post.title }}</strong>
+            </a>
+
+        {% endif %}
+
+        <br>
+
+        <p class="post-meta">
+
+            {{ post.vote_count }} point{{ post.vote_count|pluralize }}
+
+            |
+
+            {{ post.created_at|timeago }}
+
+            |
+
+            {{ post.post_type }}
+
+            |
+
+            <a href="{% url 'post_detail' post.id %}" class="comment-style">
+                {{ post.comments.count }}
+                comment{{ post.comments.count|pluralize }}
+            </a>
+
+        </p>
+
+    </li>
+
+    <br>
+
+    {% endfor %}
+
+</ol>
+
+{% else %}
+
+<p>No submissions yet.</p>
+
+{% endif %}
+
+{% endblock %}

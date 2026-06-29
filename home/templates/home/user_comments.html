@@ -1,0 +1,51 @@
+{% extends "home/base.html" %}
+{% load timeago %}
+{% block title %}
+{{ profile_user.username }}'s Comments
+{% endblock %}
+
+{% block content %}
+
+<h2>{{ profile_user.username }}'s Comments</h2>
+
+{% if comments %}
+
+    {% for comment in comments %}
+
+        <div style="margin-bottom: 2rem;">
+
+            <small>
+
+                On
+
+                <a href="{% url 'post_detail' comment.post.id %}">
+                    {{ comment.post.title }}
+                </a>
+
+                |
+
+                {{ comment.created_at|timeago }}
+
+            </small>
+
+            <p>
+                {{ comment.content }}
+            </p>
+
+            <a href="{% url 'post_detail' comment.post.id %}">
+                View discussion
+            </a>
+
+        </div>
+
+        <hr>
+
+    {% endfor %}
+
+{% else %}
+
+<p>No comments yet.</p>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,53 @@
+.submit-table {
+    border-collapse: collapse;
+}
+
+.submit-table td {
+    padding: 0.4rem 0.3rem;
+    vertical-align: top;
+}
+
+.label {
+    width: 3rem;
+    color: #828282;
+    font-size: 0.85rem;
+}
+
+.submit-table input[type="text"],
+.submit-table input[type="url"] {
+    width: 28rem;
+    padding: 0.2rem;
+    font-size: 0.85rem;
+    border: 0.1rem solid #999;
+    outline: none;
+}
+
+.submit-table textarea {
+    width: 28rem;
+    height: 5rem;
+    padding: 0.2rem;
+    font-size: 0.85rem;
+    border: 0.1rem solid #999;
+    resize: vertical;
+    outline: none;
+}
+
+.submit-table select {
+    width: 10rem;
+    padding: 0.2rem;
+    font-size: 0.85rem;
+}
+
+.submit-table button {
+    padding: 0.2rem 0.8rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.submit-note {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: #828282;
+    line-height: 1.6;
+    max-width: 40rem;
+}

@@ -1,0 +1,72 @@
+{% load timeago %}
+<div class="comment">
+
+    <p>
+
+        <a href="{% url 'vote_comment' comment.id %}" class="vote-arrow">
+            ▲
+        </a>
+
+        <span class="user-style">
+
+            <a href="{% url 'profile' comment.user.username %}" class="user-style">
+                {{ comment.user.username }}
+            </a>
+
+        </span>
+
+        <span class="comment-style2">
+
+            {{ comment.vote_count }} point{{ comment.vote_count|pluralize }}
+
+            |
+
+            {{ comment.created_at|timeago }}
+
+        </span>
+
+    </p>
+
+    <p>
+        {{ comment.content }}
+    </p>
+
+    {% if user.is_authenticated %}
+
+        <a href="{% url 'reply_comment' comment.id %}" class="reply_style">
+            Reply
+        </a>
+
+        {% if user == comment.user %}
+
+            |
+
+            <a href="{% url 'edit_comment' comment.id %}" class="reply_style">
+                Edit
+            </a>
+
+            |
+
+            <a href="{% url 'delete_comment' comment.id %}" class="reply_style">
+                Delete
+            </a>
+
+        {% endif %}
+
+    {% endif %}
+
+    {% if comment.replies.all %}
+
+        <div class="replies">
+
+            {% for reply in comment.replies.all %}
+
+                {% include "home/comment.html" with comment=reply %}
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+</div>

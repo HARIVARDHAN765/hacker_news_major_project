@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,9 @@
     </title>
 
     <link rel="stylesheet" href="{% static 'home/css/base.css' %}">
+    {% block css %}
+
+    {% endblock %}
 </head>
 
 <body>
@@ -47,15 +51,18 @@
 
             |
 
-            <a href="#">ask</a>
+            <a href="{% url 'ask' %}">ask</a>
 
             |
 
-            <a href="#">show</a>
+            <a href="{% url 'show' %}">show</a>
 
             |
 
             <a href="{% url 'submit' %}">submit</a>
+
+            {% block nav_extra %}
+            {% endblock %}
 
         </div>
 
@@ -63,7 +70,7 @@
 
             {% if user.is_authenticated %}
 
-                {{ user.username }}
+                <a href="{% url 'profile' user.username %}">{{ user.username }} ({{ user_karma }})</a>
 
                 |
 

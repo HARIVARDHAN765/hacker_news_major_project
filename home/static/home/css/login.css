@@ -1,53 +1,120 @@
 body {
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 1rem;
-    background-color: white;
-    color: black;
     margin: 0;
+    padding: 0;
+    background: #f6f6ef;
+    font-family: Verdana, Geneva, sans-serif;
 }
 
-.container {
-    margin: 1.5rem;
+.login-page {
+    display: flex;
+    background-color:white;
+    justify-content: center;
+    padding: 3rem 1rem;
 }
 
-h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.8rem;
+.login-box {
+    width: 100%;
+    max-width: 650px;
+    background: #f6f6ef;
+    border: 1px solid #d9d9d9;
 }
 
-table {
-    border-collapse: collapse;
-    margin-bottom: 0.8rem;
-}
-
-td {
-    padding: 0.3rem 0.5rem 0.3rem 0;
-}
-
-input[type="text"],
-input[type="password"] {
-    width: 14rem;
-    padding: 0.25rem;
+.login-header {
+    background: #ff6600;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.8rem;
+    font-weight: bold;
     font-size: 1rem;
 }
 
-input[type="submit"] {
-    margin-top: 0.5rem;
-    padding: 0.3rem 0.8rem;
-    font-size: 1rem;
-    cursor: pointer;
+.logo {
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1px solid white;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
 }
 
-a {
-    color: blue;
-    text-decoration: none;
+.form-section {
+    padding: 1.5rem;
+}
+
+.form-section h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.form-section form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-section label {
+    margin-top: 0.8rem;
+    margin-bottom: 0.3rem;
     font-size: 0.9rem;
+    color: #444;
 }
 
-a:hover {
+.form-section input {
+    padding: 0.6rem;
+    border: 1px solid #bdbdbd;
+    background: white;
+    font-size: 0.9rem;
+    font-family: inherit;
+    border-radius: 3px;
+}
+
+.form-section input:focus {
+    outline: none;
+    border-color: #ff6600;
+}
+
+.form-section button {
+    margin-top: 1.3rem;
+    width: fit-content;
+    padding: 0.6rem 1.3rem;
+    border: none;
+    background: #ff6600;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: inherit;
+    border-radius: 3px;
+}
+
+.form-section button:hover {
+    background: #e65c00;
+}
+
+.forgot-password {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.forgot-password:hover {
     text-decoration: underline;
 }
 
 hr {
-    margin: 1.5rem 0;
+    border: none;
+    border-top: 1px solid #d9d9d9;
+    margin: 0;
+}
+
+.errorlist {
+    color: #c62828;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    font-size: 0.85rem;
 }

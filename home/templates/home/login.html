@@ -2,9 +2,11 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Login | Hacker News</title>
 
     <link rel="stylesheet" href="{% static 'home/css/login.css' %}">
@@ -12,72 +14,90 @@
 
 <body>
 
-<div class="container">
+<div class="login-page">
 
-    <h3>Login</h3>
+    <div class="login-box">
 
-    <form method="POST" action="{% url 'login' %}">
-        {% csrf_token %}
+        <div class="login-header">
 
-        <table>
+            <div class="logo">
+                Y
+            </div>
 
-            <tr>
-                <td>Username:</td>
-                <td>{{ login_form.username }}</td>
-            </tr>
+            <span>Hacker News</span>
 
-            <tr>
-                <td>Password:</td>
-                <td>{{ login_form.password }}</td>
-            </tr>
+        </div>
 
-        </table>
+        <div class="form-section">
 
-        <input type="submit" value="Login">
+            <h2>Login</h2>
 
-    </form>
+            <form method="POST" action="{% url 'login' %}">
 
-    <p>
-        <a href="#">Forgot your password?</a>
-    </p>
+                {% csrf_token %}
 
-    <hr>
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
 
-    <h3>Create Account</h3>
+                <label>Username</label>
 
-    {{ register_form.errors }}
+                {{ login_form.username }}
 
-    <form method="POST" action="{% url 'register' %}">
-        {% csrf_token %}
+                <label>Password</label>
 
-        <table>
-            <tr>
-                <td>Email:</td>
-                <td>{{ register_form.email }}</td>
-            </tr>
+                {{ login_form.password }}
 
-            <tr>
-                <td>Username:</td>
-                <td>{{ register_form.username }}</td>
-            </tr>
+                <button type="submit">
+                    Login
+                </button>
 
-            <tr>
-                <td>Password:</td>
-                <td>{{ register_form.password1 }}</td>
-            </tr>
+            </form>
 
-            <tr>
-                <td>Repeat Password:</td>
-                <td>{{ register_form.password2 }}</td>
-            </tr>
+            <a href="#" class="forgot-password">
+                Forgot your password?
+            </a>
 
-        </table>
+        </div>
 
-        <input type="submit" value="Create Account">
+        <hr>
 
-    </form>
+        <div class="form-section">
+
+            <h2>Create Account</h2>
+
+            {{ register_form.errors }}
+
+            <form method="POST" action="{% url 'register' %}">
+
+                {% csrf_token %}
+
+                <label>Email</label>
+
+                {{ register_form.email }}
+
+                <label>Username</label>
+
+                {{ register_form.username }}
+
+                <label>Password</label>
+
+                {{ register_form.password1 }}
+
+                <label>Repeat Password</label>
+
+                {{ register_form.password2 }}
+
+                <button type="submit">
+                    Create Account
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </div>
 
 </body>
+
 </html>

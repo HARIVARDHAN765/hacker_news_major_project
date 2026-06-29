@@ -4,10 +4,12 @@ from .forms import RegisterForm, LoginForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm
-from .models import Post, Comment
+from .models import Post, Comment, Profile
 from django.shortcuts import get_object_or_404
 from .forms import CommentForm
 from .models import PostVote, CommentVote
+from django.contrib.auth.models import User
+from .forms import ProfileForm
 
 
 def home(request):
@@ -22,25 +24,132 @@ def home(request):
     )
 
 
+
+def profile(request, username):
+
+    profile_user = get_object_or_404(
+        User,
+        username=username,
+    )
+
+    profile, created = Profile.objects.get_or_create(
+        user=profile_user
+    )
+
+    if request.user == profile_user:
+
+        if request.method == "POST":
+
+            form = ProfileForm(
+                request.POST,
+                instance=profile,
+            )
+
+            if form.is_valid():
+                form.save()
+
+                return redirect(
+                    "profile",
+                    username=profile_user.username,
+                )
+
+        else:
+
+            form = ProfileForm(
+                instance=profile,
+            )
+
+    else:
+
+        form = None
+
+    submissions = profile_user.posts.all()
+
+    comments = profile_user.comments.all()
+
+    post_karma = 0
+    for post in submissions:
+        post_karma += post.vote_count()
+    comment_karma = 0
+    for comment in comments:
+        comment_karma += comment.vote_count()
+    karma = post_karma + comment_karma
+
+    return render(
+        request,
+        "home/profile.html",
+        {
+            "profile_user": profile_user,
+            "profile": profile,
+            "submissions": submissions,
+            "comments": comments,
+            "karma": karma,
+            "form": form,
+        },
+    )
+
+def user_submissions(request, username):
+
+    profile_user = get_object_or_404(
+        User,
+        username=username,
+    )
+
+    posts = Post.objects.filter(
+        user=profile_user,
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "home/user_submissions.html",
+        {
+            "profile_user": profile_user,
+            "posts": posts,
+        },
+    )
+
+
+def user_comments(request, username):
+
+    profile_user = get_object_or_404(
+        User,
+        username=username,
+    )
+
+    comments = Comment.objects.filter(
+        user=profile_user,
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "home/user_comments.html",
+        {
+            "profile_user": profile_user,
+            "comments": comments,
+        },
+    )
+
+
 def login_view(request):
     if request.method == "POST":
+
         form = LoginForm(request, data=request.POST)
 
         if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
 
-            user = authenticate(
-                request,
-                username=username,
-                password=password,
-            )
+            user = form.get_user()
 
-            if user is not None:
-                login(request, user)
-                return redirect("home")
+            login(request, user)
+
+            next_url = request.POST.get("next")
+
+            if next_url:
+                return redirect(next_url)
+
+            return redirect("home")
 
     else:
+
         form = LoginForm()
 
     register_form = RegisterForm()
@@ -54,15 +163,20 @@ def login_view(request):
         },
     )
 
-
-
 def register_view(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
 
         if form.is_valid():
+
             user = form.save()
+
+            Profile.objects.create(
+                user=user
+            )
+
             login(request, user)
+
             return redirect("home")
 
         login_form = LoginForm()
@@ -77,7 +191,6 @@ def register_view(request):
         )
 
     return redirect("login")
-
 def logout_view(request):
     logout(request)
     return redirect("home")
@@ -106,10 +219,134 @@ def submit_view(request):
             "form": form,
         },
     )
+@login_required
+def edit_post(request, post_id):
 
+    post = get_object_or_404(
+        Post,
+        id=post_id,
+        user=request.user,
+    )
 
+    if request.method == "POST":
 
+        form = PostForm(
+            request.POST,
+            instance=post,
+        )
 
+        if form.is_valid():
+            form.save()
+
+            return redirect(
+                "post_detail",
+                post_id=post.id,
+            )
+
+    else:
+
+        form = PostForm(
+            instance=post,
+        )
+
+    return render(
+        request,
+        "home/edit_post.html",
+        {
+            "form": form,
+            "post": post,
+        },
+    )
+@login_required
+def delete_post(request, post_id):
+
+    post = get_object_or_404(
+        Post,
+        id=post_id,
+        user=request.user,
+    )
+
+    if request.method == "POST":
+
+        post.delete()
+
+        return redirect("home")
+
+    return render(
+        request,
+        "home/delete_post.html",
+        {
+            "post": post,
+        },
+    )
+
+@login_required
+def edit_comment(request, comment_id):
+
+    comment = get_object_or_404(
+        Comment,
+        id=comment_id,
+        user=request.user,
+    )
+
+    if request.method == "POST":
+
+        form = CommentForm(
+            request.POST,
+            instance=comment,
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect(
+                "post_detail",
+                post_id=comment.post.id,
+            )
+
+    else:
+
+        form = CommentForm(
+            instance=comment,
+        )
+
+    return render(
+        request,
+        "home/edit_comment.html",
+        {
+            "form": form,
+            "comment": comment,
+        },
+    )
+
+@login_required
+def delete_comment(request, comment_id):
+
+    comment = get_object_or_404(
+        Comment,
+        id=comment_id,
+        user=request.user,
+    )
+
+    if request.method == "POST":
+
+        post_id = comment.post.id
+
+        comment.delete()
+
+        return redirect(
+            "post_detail",
+            post_id=post_id,
+        )
+
+    return render(
+        request,
+        "home/delete_comment.html",
+        {
+            "comment": comment,
+        },
+    )
 
 
 def post_detail(request, post_id):
@@ -195,6 +432,35 @@ def vote_comment(request, comment_id):
     )
 
     return redirect(
-        "post_detail",
-        post_id=comment.post.id,
+        request.META.get("HTTP_REFERER", "home")
+    )
+
+
+def ask_posts(request):
+
+    posts = Post.objects.filter(
+        post_type="ASK"
+    )
+
+    return render(
+        request,
+        "home/ask.html",
+        {
+            "posts": posts,
+        },
+    )
+
+
+def show_posts(request):
+
+    posts = Post.objects.filter(
+        post_type="SHOW",
+    )
+
+    return render(
+        request,
+        "home/show.html",
+        {
+            "posts": posts,
+        },
     )

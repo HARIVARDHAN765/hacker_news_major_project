@@ -1,4 +1,10 @@
 {% extends "home/base.html" %}
+{% load static %}
+{% load timeago %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'home/css/post_detail.css' %}">
+{% endblock %}
 
 {% block title %}
 {{ post.title }}
@@ -6,117 +12,119 @@
 
 {% block content %}
 
-<h2 class="post-title">{{ post.title }}</h2>
-
-{% if post.url %}
 <p>
-    <a href="{{ post.url }}" target="_blank" class="link-style1">
-        {{ post.url }}
+
+    <a href="{% url 'vote_post' post.id %}" class="vote-arrow">
+        ▲
     </a>
-</p>
-{% endif %}
 
-{% if post.text %}
-<p>
-    {{ post.text }}
+    {% if post.url %}
+
+        <a href="{{ post.url }}" target="_blank" class="post-title">
+            <strong>{{ post.title }}</strong>
+        </a>
+
+    {% else %}
+
+        <strong class="post-title">
+            {{ post.title }}
+        </strong>
+
+    {% endif %}
+
 </p>
-{% endif %}
 
 <p class="post-meta">
-    Posted by <strong>{{ post.user.username }}</strong>
+
+    {{ post.vote_count }} point{{ post.vote_count|pluralize }}
+
     |
-    {{ post.created_at }}
+
+    <a href="{% url 'profile' post.user.username %}">
+        {{ post.user.username }}
+    </a>
+
+    |
+
+    {{ post.created_at|timeago }}
+
+    |
+
+    {{ post.post_type }}
+
+    |
+
+    {{ post.comments.count }} comment{{ post.comments.count|pluralize }}
+
+    {% if user == post.user %}
+
+        |
+
+        <a href="{% url 'edit_post' post.id %}">
+            edit
+        </a>
+
+        |
+
+        <a href="{% url 'delete_post' post.id %}">
+            delete
+        </a>
+
+    {% endif %}
+
 </p>
 
-<h3></h3>
+{% if post.text %}
+
+<p class="post-text">
+    {{ post.text }}
+</p>
+
+{% endif %}
+
+<hr>
 
 {% if user.is_authenticated %}
 
 <form method="POST">
+
     {% csrf_token %}
 
     {{ form.as_p }}
 
     <button type="submit">
-        add comment
+        Add Comment
     </button>
+
 </form>
 
 {% else %}
 
 <p>
-    <a href="{% url 'login' %}">Login</a> to add a comment.
+
+    <a href="{% url 'login' %}">
+        Login
+    </a>
+
+    to add a comment.
+
 </p>
 
 {% endif %}
 
-
-
-<h3></h3>
+<hr>
 
 {% for comment in post.comments.all %}
 
     {% if not comment.parent %}
 
-        <div>
-
-            <a href="{% url 'vote_comment' comment.id %}" class="vote-arrow">
-                ▲
-            </a>
-
-            <light class="user-style">{{ comment.user.username }}</light>
-
-            <small class="comment-style2">
-                {{ comment.vote_count }} point{{ comment.vote_count|pluralize }}
-                |
-                {{ comment.created_at }}
-            </small>
-
-            <p>
-                {{ comment.content }}
-            </p>
-
-            <!-- Reply link (we'll implement next) -->
-
-            <a href="{% url 'reply_comment' comment.id %}" class="reply_style">Reply</a>
-
-            <!-- Replies -->
-
-            {% for reply in comment.replies.all %}
-
-                <div style="margin-left:40px; border-left:2px solid #ddd; padding-left:15px; margin-top:10px;">
-
-                    <a href="{% url 'vote_comment' reply.id %}" class="vote-arrow">
-                        ▲
-                    </a>
-
-                    <light class="user-style">{{ reply.user.username }}</light>
-
-                    <small class="comment-style2">
-                        {{ reply.vote_count }} point{{ reply.vote_count|pluralize }}
-                        |
-                        {{ reply.created_at }}
-                    </small>
-
-                    <p>
-                        {{ reply.content }}
-                    </p>
-
-                </div>
-
-            {% empty %}
-
-            {% endfor %}
-
-        
-
-        </div>
+        {% include "home/comment.html" with comment=comment %}
 
     {% endif %}
 
 {% empty %}
 
-<p>No comments yet.</p>
+    <p>No comments yet.</p>
 
 {% endfor %}
 

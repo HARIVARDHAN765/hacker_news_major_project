@@ -1,42 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit | Hacker News Clone</title>
-</head>
-<body>
+{% extends "home/base.html" %}
+{% load static %}
 
-    <header>
-        <strong>Y</strong>
-        <span> Submit</span>
-    </header>
+{% block title %}
+Submit
+{% endblock %}
 
-    <hr>
+{% block css %}
+<link rel="stylesheet" href="{% static 'home/css/submit.css' %}">
+{% endblock %}
 
-    <main>
+{% block content %}
 
-        <h2>Submit</h2>
+<form method="POST">
 
-        <p>
-            Leave the URL blank to submit a question for discussion.
-            If there is no URL, the text (if any) will appear at the top
-            of the thread.
-        </p>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
 
-        <form method="POST">
+    <table class="submit-table">
 
-            {% csrf_token %}
+        <tr>
+            <td class="label">title</td>
+            <td>{{ form.title }}</td>
+        </tr>
 
-            {{ form.as_p }}
+        <tr>
+            <td class="label">url</td>
+            <td>{{ form.url }}</td>
+        </tr>
 
-            <button type="submit">
-                Submit
-            </button>
+        <tr>
+            <td class="label">text</td>
+            <td>{{ form.text }}</td>
+        </tr>
 
-        </form>
+        <tr>
+            <td class="label">type</td>
+            <td>{{ form.post_type }}</td>
+        </tr>
 
-    </main>
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit">
+                    submit
+                </button>
+            </td>
+        </tr>
 
-</body>
-</html>
+    </table>
+
+</form>
+
+<p class="submit-note">
+
+    Leave url blank to submit a question for discussion.
+    If there is no url, text (if any) will appear at the top of the thread.
+    If there is a url, text is optional.
+
+</p>
+
+{% endblock %}

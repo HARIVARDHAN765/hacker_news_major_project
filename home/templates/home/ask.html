@@ -1,11 +1,12 @@
 {% extends "home/base.html" %}
+{% load timeago %}
 
 {% block title %}
-Ask
+Ask HN
 {% endblock %}
 
 {% block content %}
 
-<h1>Ask HN</h1>
+{% include "home/post_list.html" %}
 
 {% endblock %}
