@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block nav_extra %}
-| <span style="color: white;">
+| <span class="nav-user-page">
     {{ profile_user.username }}'s submissions
 </span>
 {% endblock %}
@@ -47,15 +47,19 @@
 
             |
 
-            {{ post.created_at|timeago }}
+            <span class="comment-time">
+                {{ post.created_at|timeago }}
+            </span>
 
             |
 
-            {{ post.post_type }}
+            <span class="comment-time">
+                {{ post.post_type }}
+            </span>
 
             |
 
-            <a href="{% url 'post_detail' post.id %}" class="comment-style">
+            <a href="{% url 'post_detail' post.id %}" class="discussion-link">
                 {{ post.comments.count }}
                 comment{{ post.comments.count|pluralize }}
             </a>

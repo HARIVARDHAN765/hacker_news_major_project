@@ -10,10 +10,33 @@ from .forms import CommentForm
 from .models import PostVote, CommentVote
 from django.contrib.auth.models import User
 from .forms import ProfileForm
+from django.core.paginator import Paginator
+from django.db.models import Count
+from django.db.models import Q
 
 
 def home(request):
-    posts = Post.objects.all()
+
+    post_list = Post.objects.annotate(
+        vote_total=Count("votes")
+    )
+
+    ranked_posts = sorted(
+        post_list,
+        key=lambda post: post.ranking_score(),
+        reverse=True,
+    )
+
+    paginator = Paginator(
+        ranked_posts,
+        30,
+    )
+
+    page_number = request.GET.get("page")
+
+    posts = paginator.get_page(
+        page_number,
+    )
 
     return render(
         request,
@@ -414,10 +437,8 @@ def reply_comment(request, comment_id):
 def vote_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
-    PostVote.objects.get_or_create(
-        user=request.user,
-        post=post,
-    )
+    if post.user != request.user:
+        PostVote.objects.get_or_create(user=request.user,post=post,)
 
     return redirect(request.META.get("HTTP_REFERER", "home"))
 
@@ -426,10 +447,11 @@ def vote_post(request, post_id):
 def vote_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
 
-    CommentVote.objects.get_or_create(
-        user=request.user,
-        comment=comment,
-    )
+    if comment.user != request.user:
+        CommentVote.objects.get_or_create(
+            user=request.user,
+            comment=comment,
+        )
 
     return redirect(
         request.META.get("HTTP_REFERER", "home")
@@ -462,5 +484,87 @@ def show_posts(request):
         "home/show.html",
         {
             "posts": posts,
+        },
+    )
+
+def comments_page(request):
+
+    comments = Comment.objects.select_related(
+        "user",
+        "post",
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "home/comments.html",
+        {
+            "comments": comments,
+        },
+    )
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def threads(request):
+
+    comments = Comment.objects.filter(
+        user=request.user,
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "home/threads.html",
+        {
+            "comments": comments,
+        },
+    )
+
+
+def past_posts(request):
+
+    posts = Post.objects.order_by("-created_at")
+
+    return render(
+        request,
+        "home/past.html",
+        {
+            "posts": posts,
+        },
+    )
+
+def new_posts(request):
+
+    posts = Post.objects.order_by(
+        "-created_at",
+    )
+
+    return render(
+        request,
+        "home/new.html",
+        {
+            "posts": posts,
+        },
+    )
+
+def search(request):
+
+    query = request.GET.get("q", "")
+
+    posts = Post.objects.none()
+
+    if query:
+
+        posts = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(text__icontains=query) |
+            Q(user__username__icontains=query)
+        ).distinct()
+
+    return render(
+        request,
+        "home/search.html",
+        {
+            "posts": posts,
+            "query": query,
         },
     )

@@ -1,0 +1,57 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Search
+{% endblock %}
+
+{% block content %}
+
+<h2>
+
+    {% if query %}
+
+        Search Results for "{{ query }}"
+
+    {% else %}
+
+        Search
+
+    {% endif %}
+
+</h2>
+
+{% if query %}
+
+    <p class="search-meta">
+
+        {{ posts|length }}
+        result{{ posts|length|pluralize }}
+        found.
+
+    </p>
+
+{% endif %}
+
+{% if posts %}
+
+    {% include "home/post_list.html" %}
+
+{% elif query %}
+
+    <p>
+
+        No posts found for "<strong>{{ query }}</strong>".
+
+    </p>
+
+{% else %}
+
+    <p>
+
+        Enter a search term to find posts.
+
+    </p>
+
+{% endif %}
+
+{% endblock %}

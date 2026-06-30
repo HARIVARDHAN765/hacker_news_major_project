@@ -20,4 +20,9 @@ urlpatterns = [
     path("comments/<int:comment_id>/delete/",views.delete_comment,name="delete_comment"),
     path("ask/",views.ask_posts,name="ask"),
     path("show/",views.show_posts,name="show"),
+    path("comments/",views.comments_page,name="comments"),
+    path("threads/",views.threads,name="threads"),
+    path("past/",views.past_posts,name="past"),
+    path("new/",views.new_posts,name="new"),
+    path("search/",views.search,name="search"),
 ]

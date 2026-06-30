@@ -7,9 +7,13 @@
 
     <li>
 
-        <a href="{% url 'vote_post' post.id %}" class="vote-arrow">
-            ▲
-        </a>
+        {% if user == post.user %}
+            <span class="author-star">*</span>
+
+        {% else %}
+            <a href="{% url 'vote_post' post.id %}" class="vote-arrow">▲</a>
+
+        {% endif %}
 
         {% if post.url %}
 
@@ -92,5 +96,16 @@
 {% else %}
 
 <p>No posts have been submitted yet.</p>
+
+{% endif %}
+{% if posts.has_next %}
+
+<p class="more-link">
+
+    <a href="?page={{ posts.next_page_number }}">
+        More
+    </a>
+
+</p>
 
 {% endif %}

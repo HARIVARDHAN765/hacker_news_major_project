@@ -14,9 +14,14 @@
 
 <p>
 
-    <a href="{% url 'vote_post' post.id %}" class="vote-arrow">
-        ▲
-    </a>
+    {% if user == post.user %}
+        <span class="author-star">*</span>
+
+    {% else %}
+
+        <a href="{% url 'vote_post' post.id %}" class="vote-arrow">▲</a>
+
+    {% endif %}
 
     {% if post.url %}
 

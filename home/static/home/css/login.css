@@ -118,3 +118,14 @@ hr {
     padding-left: 1rem;
     font-size: 0.85rem;
 }
+@media only screen and (max-width: 768px) {
+    .login-page {
+        padding: 0;
+    }
+    .login-box {
+        max-width: 100%;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+    }
+}

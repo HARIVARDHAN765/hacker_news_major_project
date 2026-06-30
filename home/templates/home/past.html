@@ -1,0 +1,37 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+Past
+{% endblock %}
+
+{% block content %}
+
+<p class="past-filter">
+
+    <a href="{% url 'past' %}?period=all">
+        All
+    </a>
+
+    |
+
+    <a href="{% url 'past' %}?period=day">
+        Day
+    </a>
+
+    |
+
+    <a href="{% url 'past' %}?period=week">
+        Week
+    </a>
+
+    |
+
+    <a href="{% url 'past' %}?period=month">
+        Month
+    </a>
+
+</p>
+
+{% include "home/post_list.html" %}
+
+{% endblock %}

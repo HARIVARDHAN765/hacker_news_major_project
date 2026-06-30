@@ -2,7 +2,7 @@
 {% load timeago %}
 
 {% block title %}
-Threads
+Comments
 {% endblock %}
 
 {% block content %}
@@ -14,24 +14,25 @@ Threads
         <div class="comment">
 
             <p class="comment-meta">
+                <a href="{% url 'vote_comment' comment.id %}" class="vote-arrow">▲</a>
 
-                <a href="{% url 'vote_comment' comment.id %}" class="vote-arrow">
-                    ▲
+                <a href="{% url 'profile' comment.user.username %}">
+                    {{ comment.user.username }}
                 </a>
+
+                |
 
                 {{ comment.created_at|timeago }}
 
                 |
 
-                on:
-
-                <a href="{% url 'post_detail' comment.post.id %}">
-                    {{ comment.post.title }}
+                <a href="{% url 'post_detail' comment.post.id %}" style="color: #828282; text-decoration: none;">
+                    parent
                 </a>
 
             </p>
 
-            <p class="comment-content">
+            <p>
                 {{ comment.content }}
             </p>
 
@@ -47,7 +48,7 @@ Threads
 
 {% else %}
 
-    <p>You haven't posted any comments yet.</p>
+    <p>No comments yet.</p>
 
 {% endif %}
 

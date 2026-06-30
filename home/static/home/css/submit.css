@@ -51,3 +51,25 @@
     line-height: 1.6;
     max-width: 40rem;
 }
+@media only screen and (max-width: 768px) {
+    .submit-table, 
+    .submit-table tbody, 
+    .submit-table tr, 
+    .submit-table td {
+        display: block;
+        width: 100%;
+    }
+    .submit-table td {
+        padding: 0.2rem 0;
+    }
+    .submit-table input[type="text"],
+    .submit-table input[type="url"],
+    .submit-table textarea,
+    .submit-table select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .submit-note {
+        max-width: 100%;
+    }
+}

@@ -1,30 +1,36 @@
 {% extends "home/base.html" %}
 {% load timeago %}
+
 {% block title %}
 {{ profile_user.username }}'s Comments
 {% endblock %}
 
+{% block nav_extra %}
+| <span class="nav-user-page">
+    {{ profile_user.username }}'s comments
+</span>
+{% endblock %}
+
 {% block content %}
 
-<h2>{{ profile_user.username }}'s Comments</h2>
 
 {% if comments %}
 
     {% for comment in comments %}
 
-        <div style="margin-bottom: 2rem;">
+        <div style="margin-bottom: 1rem;">
 
             <small>
 
-                On
-
-                <a href="{% url 'post_detail' comment.post.id %}">
-                    {{ comment.post.title }}
+                <a href="{% url 'post_detail' comment.post.id %}" class="parent-link">
+                    parent
                 </a>
 
                 |
 
-                {{ comment.created_at|timeago }}
+                <span class="comment-time">
+                    {{ comment.created_at|timeago }}
+                </span>
 
             </small>
 
@@ -32,7 +38,7 @@
                 {{ comment.content }}
             </p>
 
-            <a href="{% url 'post_detail' comment.post.id %}">
+            <a href="{% url 'post_detail' comment.post.id %}" class="discussion-link">
                 View discussion
             </a>
 
@@ -44,7 +50,7 @@
 
 {% else %}
 
-<p>No comments yet.</p>
+    <p>No comments yet.</p>
 
 {% endif %}
 

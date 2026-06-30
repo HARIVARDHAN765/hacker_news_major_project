@@ -1,40 +1,43 @@
 {% load timeago %}
+
 <div class="comment">
 
-    <p>
+    <p class="comment-meta">
 
-        <a href="{% url 'vote_comment' comment.id %}" class="vote-arrow">
-            ▲
-        </a>
+        {% if user == comment.user %}
 
-        <span class="user-style">
+            <span class="author-star">*</span>
 
-            <a href="{% url 'profile' comment.user.username %}" class="user-style">
-                {{ comment.user.username }}
+        {% else %}
+
+            <a href="{% url 'vote_comment' comment.id %}" class="vote-arrow">
+                ▲
             </a>
 
-        </span>
+        {% endif %}
 
-        <span class="comment-style2">
+        <a href="{% url 'profile' comment.user.username %}">
+            {{ comment.user.username }}
+        </a>
 
-            {{ comment.vote_count }} point{{ comment.vote_count|pluralize }}
+        |
 
-            |
+        {{ comment.vote_count }} point{{ comment.vote_count|pluralize }}
 
-            {{ comment.created_at|timeago }}
+        |
 
-        </span>
+        {{ comment.created_at|timeago }}
 
     </p>
 
-    <p>
+    <p class="comment-content">
         {{ comment.content }}
     </p>
 
     {% if user.is_authenticated %}
 
         <a href="{% url 'reply_comment' comment.id %}" class="reply_style">
-            Reply
+            reply
         </a>
 
         {% if user == comment.user %}
@@ -42,20 +45,20 @@
             |
 
             <a href="{% url 'edit_comment' comment.id %}" class="reply_style">
-                Edit
+                edit
             </a>
 
             |
 
             <a href="{% url 'delete_comment' comment.id %}" class="reply_style">
-                Delete
+                delete
             </a>
 
         {% endif %}
 
     {% endif %}
 
-    {% if comment.replies.all %}
+    {% if comment.replies.exists %}
 
         <div class="replies">
 

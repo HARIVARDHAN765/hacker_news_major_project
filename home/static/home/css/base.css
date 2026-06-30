@@ -148,4 +148,130 @@ ol {
 .post-text {
     color: #828282;
 }
+.comment-meta {
+    color: #828282;
+    font-size: 0.625rem;
+}
+
+.comment-meta a {
+    color: #828282;
+    text-decoration: none;
+    font-size: 0.625rem;
+}
+
+.comment-meta a:hover {
+    text-decoration: underline;
+}
+.discuss-link {
+    color: #828282;
+    font-size: 0.625rem;
+    text-decoration: none;
+}
+
+.discuss-link:hover {
+    text-decoration: underline;
+}
+.more-link {
+    margin-top: 10px;
+    margin-left: 22px;
+}
+
+.more-link a {
+    color: black;
+    text-decoration: none;
+}
+
+.more-link a:hover {
+    text-decoration: underline;
+}
+.vote-arrow-placeholder {
+    display: inline-block;
+    width: 14px;
+}
+.author-star {
+    color: #ff6600;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: inline-block;
+    width: 14px;
+    text-align: center;
+}
+.search-meta {
+    color: #828282;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+}
+.past-filter {
+    color: #828282;
+    font-size: 0.8rem;
+    margin-bottom: 0.75rem;
+    padding-left: 1.3rem;
+    padding-bottom: 0.7rem;
+}
+
+.past-filter a {
+    color: #828282;
+    text-decoration: none;
+}
+
+.past-filter a:hover {
+    text-decoration: underline;
+}
+.search-meta {
+    padding-left: 1.4rem;
+}
+
+h2 {
+    margin-left: 1.4rem;
+}
+.parent-link {
+    color: #828282;
+    text-decoration: none;
+}
+
+.parent-link:hover {
+    text-decoration: underline;
+}
+.comment-time {
+    color: #828282;
+    font-size: 11px;
+}
+
+.discussion-link {
+    color: #828282;
+    text-decoration: none;
+    font-size: 11px;
+}
+
+
+.nav-user-page {
+    color: white;
+}
+.comment-time {
+    color: #828282;
+    font-size: 0.58rem;
+}
+
+@media only screen and (max-width: 768px) {
+    body {
+        margin: 0;
+    }
+    .page {
+        width: 100%;
+    }
+    .header {
+        flex-wrap: wrap;
+        row-gap: 0.4rem;
+    }
+    textarea, 
+    input[type="text"], 
+    input[type="url"], 
+    input[type="password"], 
+    input[type="email"] {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+
 

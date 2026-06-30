@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
+import math
 
 
 class Post(models.Model):
@@ -36,6 +38,13 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def ranking_score(self):
+        votes = getattr(self, "vote_total", None)
+        if votes is None:
+            votes = self.vote_count()
+        age_hours = (timezone.now() - self.created_at).total_seconds() / 3600
+        return (votes + 1) / math.pow(age_hours + 2,1.8,)
 
 
 class Comment(models.Model):
