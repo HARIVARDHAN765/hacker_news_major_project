@@ -3,11 +3,10 @@ from django.shortcuts import (
     redirect,
     get_object_or_404,
 )
-from ..services.cache import get_cached_trending_posts
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from ..services.ranking import get_ranked_posts
-
+from django.utils import timezone
+from datetime import timedelta
 
 from ..models import (
     Post,
@@ -19,12 +18,14 @@ from ..forms import (
     CommentForm,
 )
 
-from ..services.cache import get_cached_trending_posts
+from ..services.ranking import get_ranked_posts
 
 
 def home(request):
 
-    ranked_posts = get_cached_trending_posts()
+    ranked_posts = get_ranked_posts(
+        Post.objects.all(),
+    )
 
     paginator = Paginator(
         ranked_posts,
@@ -45,6 +46,7 @@ def home(request):
         },
     )
 
+
 def new_posts(request):
 
     posts = Post.objects.order_by(
@@ -58,9 +60,6 @@ def new_posts(request):
             "posts": posts,
         },
     )
-
-
-
 
 
 def ask_posts(request):
@@ -95,9 +94,6 @@ def show_posts(request):
             "posts": posts,
         },
     )
-
-from django.utils import timezone
-from datetime import timedelta
 
 
 def past_posts(request):
