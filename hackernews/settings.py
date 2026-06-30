@@ -160,6 +160,10 @@ LOGIN_REDIRECT_URL = "home"
 
 LOGOUT_REDIRECT_URL = "home"
 
+print("ELASTICSEARCH_URL =", repr(os.getenv("ELASTICSEARCH_URL")))
+print("ELASTICSEARCH_USERNAME =", repr(os.getenv("ELASTICSEARCH_USERNAME")))
+print("ELASTICSEARCH_PASSWORD =", repr(os.getenv("ELASTICSEARCH_PASSWORD")))
+
 ELASTICSEARCH_DSL = {
     "default": {
         "hosts": [os.getenv("ELASTICSEARCH_URL")],
